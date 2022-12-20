@@ -6,72 +6,56 @@
 // 26(1,0,1) 55(1,1,1)
 
 
-Console.WriteLine($"\nВведите размер массива X x Y x Z:");
-int x = InputNumbers("Введите X: ");
-int y = InputNumbers("Введите Y: ");
-int z = InputNumbers("Введите Z: ");
-Console.WriteLine($"");
+Console.WriteLine("Задайте параметры трехмерного массива.");
+Console.WriteLine();
 
-int[,,] array3D = new int[x, y, z];
-CreateArray(array3D);
-WriteArray(array3D);
+Console.Write("Задайте длину оси Х:");
+int userDataX = Convert.ToInt32(Console.ReadLine());
 
-int InputNumbers(string input)
+Console.Write("Задайте длину оси Y:");
+int userDataY = Convert.ToInt32(Console.ReadLine());
+
+Console.Write("Задайте длину оси Z:");
+int userDataZ = Convert.ToInt32(Console.ReadLine());
+
+int checkArray = userDataX * userDataY * userDataZ;
+Console.WriteLine();
+
+if (checkArray > 90
+ | checkArray == 0
+ | userDataX == 0
+ | userDataY == 0
+ | userDataZ == 0
+ | userDataX < 0
+ | userDataY < 0
+ | userDataZ < 0)
 {
-  Console.Write(input);
-  int output = Convert.ToInt32(Console.ReadLine());
-  return output;
+    Console.WriteLine("Ошибка ввода. Нельзя создать трехмерный массив по заданным параметрам.");
 }
 
-void WriteArray (int[,,] array3D)
+else
 {
-  for (int i = 0; i < array3D.GetLength(0); i++)
-  {
-    for (int j = 0; j < array3D.GetLength(1); j++)
-    {
-      Console.Write($"X({i}) Y({j}) ");
-      for (int k = 0; k < array3D.GetLength(2); k++)
-      {
-        Console.Write( $"Z({k})={array3D[i,j,k]}; ");
-      }
-      Console.WriteLine();
-    }
+    int[,,] array3D = new int[userDataX, userDataY, userDataZ];
     Console.WriteLine();
-  }
-}
+    FillArr(array3D);
 
-void CreateArray(int[,,] array3D)
-{
-  int[] temp = new int[array3D.GetLength(0) * array3D.GetLength(1) * array3D.GetLength(2)];
-  int  number;
-  for (int i = 0; i < temp.GetLength(0); i++)
-  {
-    temp[i] = new Random().Next(10, 100);
-    number = temp[i];
-    if (i >= 1)
+    void FillArr(int[,,] arr)
     {
-      for (int j = 0; j < i; j++)
-      {
-        while (temp[i] == temp[j])
+        Console.WriteLine("Сформированный трехмерный массив:");
+        Console.WriteLine();
+        int num = 10;
+        for (int x = 0; x < arr.GetLength(0); x++)
         {
-          temp[i] = new Random().Next(10, 100);
-          j = 0;
-          number = temp[i];
+            for (int y = 0; y < arr.GetLength(1); y++)
+            {
+                for (int z = 0; z < arr.GetLength(2); z++)
+                {
+                    arr[x, y, z] = num;
+                    Console.Write($"{arr[x, y, z]} {(x, y, z)} ");
+                    num++;
+                }
+                Console.WriteLine();
+            }
         }
-          number = temp[i];
-      }
     }
-  }
-  int count = 0; 
-  for (int x = 0; x < array3D.GetLength(0); x++)
-  {
-    for (int y = 0; y < array3D.GetLength(1); y++)
-    {
-      for (int z = 0; z < array3D.GetLength(2); z++)
-      {
-        array3D[x, y, z] = temp[count];
-        count++;
-      }
-    }
-  }
 }
